@@ -21,7 +21,7 @@ class URN:
 
     def get_dnb_status(self):
         """ connect to the resolver of the DNB an return the HTTP
-            status code and headers fpr a given URN
+            status code and headers for a given URN
         """
         
         dnb = httplib.HTTPConnection(RESOLVER, 80)
@@ -35,7 +35,7 @@ class URN:
 
     def is_registered(self):
         """a request for a registered URN is redirected to the registered
-           URL whith HTTP code 302. A not registered URN results in an error
+           URL with HTTP code 302. A not registered URN results in an error
            page with HTTP code 200.
         """
         
