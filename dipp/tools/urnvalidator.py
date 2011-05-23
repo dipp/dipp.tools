@@ -46,10 +46,17 @@ class URN:
 
     def is_valid(self):
         """A URN is only valid, when the actual URL of the document and the
-           registered URL are identical 
+           registered URL are identical. http and https are considered to be
+           the same url 
         """
         
-        if self.url == self.registered_url():
+        url = self.url.split('//')[-1] # chop of protocol
+        if self.is_registered():
+            reg_url = self.registered_url().split('//')[-1]
+        else:
+            reg_url = None
+            
+        if url == reg_url:
             return True
         else:
             return False
@@ -66,13 +73,14 @@ class URN:
 if __name__ == '__main__':
     
     URNs = (
-        ("urn:nbn:de:0009-11-29231","http://www.socwork.net/2011/1/salisbury"),
-        ("urn:nbn:de:0009-11-29231","http://www.socwork.net/2011/1/salisbury-wrong"),
-        ("urn:nbn:de:0009-11-fake","http://www.socwork.net/2011/1/salisbury"),
-        ("urn:nbn:de:0009-11-20391", "http://www.socwork.net/2009/1/special_issue/bailey")
+        ("urn:nbn:de:0009-11-29231", "http://www.socwork.net/2011/1/salisbury"),
+        ("urn:nbn:de:0009-11-29231", "http://www.socwork.net/2011/1/salisbury-wrong"),
+        ("urn:nbn:de:0009-11-fake",  "http://www.socwork.net/2011/1/salisbury"),
+        ("urn:nbn:de:0009-11-20391", "https://www.socwork.net/2009/1/special_issue/bailey")
     )
     
     for urn, url in URNs:
         x = URN(urn, url)
-        print x.urn, x.is_registered(), x.is_valid(), x.registered_url()
+        print x.urn, x.is_registered(), x.is_valid(), x.registered_url(), x.url
     
+        
