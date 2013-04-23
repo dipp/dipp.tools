@@ -7,9 +7,12 @@ __version__ = "$Id: urnvalidator 3066 2011-04-15 12:56:20Z reimer $"
 __author__ = "Peter Reimer <reimer@hbz-nrw.de>" 
 
 import httplib
+import urllib
+import urlparse
+#import elementtree.ElementTree as ET
+import xml.dom.minidom
 
-
-RESOLVER = "nbn-resolving.de"
+RESOLVER = "nbn-resolving.org"
 
 class URN:
     
@@ -17,32 +20,34 @@ class URN:
         
         self.url = url
         self.urn = urn
-        self.status, self.headers = self.get_dnb_status()
+        self.status = False
+        self.headers = False
 
-    def get_dnb_status(self):
+
+    def make_query_url(self):
+        path = 'resolver'
+        params = {"identifier":self.urn,"verb":"full","xml":"on"} 
+        query = urllib.urlencode(params)
+        query_url = urlparse.urlunparse(('http',RESOLVER,path,'',query,''))
+        return query_url
+
+    def get_dnb_response(self):
         """ connect to the resolver of the DNB an return the HTTP
             status code and headers for a given URN
         """
         
-        dnb = httplib.HTTPConnection(RESOLVER, 80)
-        dnb.connect()
-        dnb.request("HEAD", "/" + self.urn)
-        res = dnb.getresponse()
-        status = res.status
-        headers = res.getheaders()
-        dnb.close()
-        return status, headers
+        conn = httplib.HTTPConnection(RESOLVER, 80)
+        conn.request("GET", self.make_query_url())
+        response = conn.getresponse()
+        xml = response.read()
+        return xml
 
     def is_registered(self):
-        """a request for a registered URN is redirected to the registered
-           URL with HTTP code 302. A not registered URN results in an error
-           page with HTTP code 200.
-        """
-        
-        if self.status == 302:
-            return True
-        else:
-            return False
+        xmldoc = xml.dom.minidom.parseString(self.get_dnb_response())
+        header = xmldoc.getElementsByTagName("pidef:header")[0]
+        #request = header.getElementsByTagName("pidef:request")[0]
+        status_code = header.getElementsByTagName("pidef:status_code")[0]
+        return status_code.nodeValue
 
     def is_valid(self):
         """A URN is only valid, when the actual URL of the document and the
@@ -73,14 +78,13 @@ class URN:
 if __name__ == '__main__':
     
     URNs = (
-        ("urn:nbn:de:0009-11-29231", "http://www.socwork.net/2011/1/salisbury"),
-        ("urn:nbn:de:0009-11-29231", "http://www.socwork.net/2011/1/salisbury-wrong"),
-        ("urn:nbn:de:0009-11-fake",  "http://www.socwork.net/2011/1/salisbury"),
-        ("urn:nbn:de:0009-11-20391", "https://www.socwork.net/2009/1/special_issue/bailey")
+        ("urn:nbn:de:0009-6-fake", "https://www.jvrb.org/past-issues/2.2005/248"),
+        ("urn:nbn:de:0009-6-2480", "https://www.jvrb.org/past-issues/2.2005/248"),
+        ("urn:nbn:de:0009-6-5890", "https://www.jvrb.org/past-issues/3.2006/589")
     )
-    
+   
     for urn, url in URNs:
         x = URN(urn, url)
-        print x.urn, x.is_registered(), x.is_valid(), x.registered_url(), x.url
+        print x.is_registered()
     
         
