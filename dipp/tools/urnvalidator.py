@@ -9,7 +9,6 @@ __author__ = "Peter Reimer <reimer@hbz-nrw.de>"
 import httplib
 import urllib
 import urlparse
-#import elementtree.ElementTree as ET
 import xml.dom.minidom
 
 RESOLVER = "nbn-resolving.org"
@@ -45,9 +44,13 @@ class URN:
     def is_registered(self):
         xmldoc = xml.dom.minidom.parseString(self.get_dnb_response())
         header = xmldoc.getElementsByTagName("pidef:header")[0]
-        #request = header.getElementsByTagName("pidef:request")[0]
         status_code = header.getElementsByTagName("pidef:status_code")[0]
-        return status_code.nodeValue
+        print status_code.firstChild.nodeValue
+        data = xmldoc.getElementsByTagName("pidef:data")[0]
+        url_infos = data.getElementsByTagName("pidef:url_info")
+        for url_info in url_infos:
+            url = url_info.getElementsByTagName("pidef:url")[0]
+            print url.firstChild.nodeValue
 
     def is_valid(self):
         """A URN is only valid, when the actual URL of the document and the
@@ -85,6 +88,6 @@ if __name__ == '__main__':
    
     for urn, url in URNs:
         x = URN(urn, url)
-        print x.is_registered()
+        x.is_registered()
     
         
