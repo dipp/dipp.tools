@@ -28,7 +28,9 @@ setup(name='dipp.tools',
           'setuptools',
           # -*- Extra requirements: -*-
       ],
-      entry_points="""
-      # -*- Entry points: -*-
-      """,
+      entry_points={
+      'console_scripts':[
+        'urnvalidator=dipp.tools.urnvalidator:main'
+      ]
+      },
       )

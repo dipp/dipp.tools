@@ -77,9 +77,9 @@ class URN:
         h = dict(self.headers)
         return h.get('location',None)
     
-    
-if __name__ == '__main__':
-    
+
+def main():
+
     URNs = (
         ("urn:nbn:de:0009-6-fake", "https://www.jvrb.org/past-issues/2.2005/248"),
         ("urn:nbn:de:0009-6-2480", "https://www.jvrb.org/past-issues/2.2005/248"),
@@ -89,5 +89,9 @@ if __name__ == '__main__':
     for urn, url in URNs:
         x = URN(urn, url)
         x.is_registered()
+
+if __name__ == '__main__':
+    main()
+    
     
         
