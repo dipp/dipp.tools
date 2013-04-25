@@ -26,6 +26,7 @@ setup(name='dipp.tools',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'argparse',
           # -*- Extra requirements: -*-
       ],
       entry_points={
