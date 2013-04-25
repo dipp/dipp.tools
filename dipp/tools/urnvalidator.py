@@ -42,8 +42,13 @@ class URN:
         return xml
     
     def parse_dnb_response(self):
-        
-        pidef = {"header":None, "data":None, "valid": False}
+        """
+        validity
+        0: not registered
+        1: registered and valid url 
+        2: registered but invalid url
+        """
+        pidef = {"header":None, "data":None, "valid": 0}
         header = {}
         data = []
         xmldoc = xml.dom.minidom.parseString(self.get_dnb_response())
@@ -67,7 +72,9 @@ class URN:
                 urls.append(url_info["url"].split('//')[-1])
             # check validity
             if urls[0] == self.url.split('//')[-1]: 
-                pidef["valid"] = True
+                pidef["valid"] = 1
+            else:
+                pidef["valid"] = 2
         
         pidef["data"] = data
         return pidef
@@ -104,6 +111,7 @@ def main():
         else:
             for count, url_info in enumerate(answer["data"]):
                 print count, url_info['url']
+                
 if __name__ == '__main__':
     main()
     
