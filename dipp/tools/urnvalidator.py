@@ -3,7 +3,7 @@
 # Checks if a URN of a given URN is registered at the DNB and if it is valid
 #
 
-__version__ = "$Id: urnvalidator 3066 2011-04-15 12:56:20Z reimer $"
+__version__ = "$Id$"
 __author__ = "Peter Reimer <reimer@hbz-nrw.de>" 
 
 import argparse
@@ -18,7 +18,7 @@ class URN:
     
     def __init__(self, urn, url):
         
-        self.url = url
+        self.url = https_to_http(url)
         self.urn = urn
         self.query_url = self.make_query_url()
 
@@ -66,12 +66,19 @@ class URN:
         if len(url_infos_elems) > 0:
             for url_infos_elem in url_infos_elems:
                 url_info = {}
+                
                 for x in ('url','created','last_modified'):
                     url_info[x] = getChildrenByName(url_infos_elem, ":".join(("pidef",x)))[0].firstChild.nodeValue
+                
+                # mark the currently activ URL                
+                if https_to_http(url_info['url']) == self.url:
+                    url_info['current'] = True
+                else:
+                    url_info['current'] = False
                 data.append(url_info)
-                urls.append(url_info["url"].split('//')[-1])
+                
             # check validity
-            if urls[0] == self.url.split('//')[-1]: 
+            if data[0]['current'] == True: 
                 pidef["valid"] = 1
             else:
                 pidef["valid"] = 2
@@ -86,6 +93,16 @@ def getChildrenByName(element, name):
             children.append(child)
     return children
 
+def https_to_http(url):
+    """"""
+    parts = url.split('://')
+    if len(parts) == 2:
+        if parts[0].lower() == 'https': parts[0] = 'http'
+        url = ('://').join(parts) 
+    else:
+        url = url
+    return url
+
 def main():
 
     parser = argparse.ArgumentParser(description='check if the URN is registered with the DNB')
@@ -94,9 +111,9 @@ def main():
     args = parser.parse_args()
 
     URNs = (
-        ("urn:nbn:de:0009-6-fake", "https://www.jvrb.org/past-issues/2.2005/248"),
-        ("urn:nbn:de:0009-6-2480", "https://www.jvrb.org/past-issues/2.2005/248"),
-        ("urn:nbn:de:0009-6-5890", "https://www.jvrb.org/past-issues/3.2006/589")
+        ("urn:nbn:de:0009-6-fake", "https:/www.jvrb.org/past-issues/2.2005/248"),
+        ("urn:nbn:de:0009-6-2480", "HTTPs://www.jvrb.org/past-issues/2.2005/248"),
+        ("urn:nbn:de:0009-6-5890", "http://www.jvrb.org/past-issues/3.2006/589")
     )
    
     for urn, url in URNs:
@@ -110,7 +127,7 @@ def main():
             print "no data found"
         else:
             for count, url_info in enumerate(answer["data"]):
-                print count, url_info['url']
+                print count, url_info['url'], url_info['current'] 
                 
 if __name__ == '__main__':
     main()
