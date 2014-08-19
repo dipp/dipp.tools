@@ -42,12 +42,14 @@ class URN:
         return xml
     
     def parse_dnb_response(self):
-        """
+        """Parse the XML Response coming from the DNB resolver.
+        
         validity
         0: not registered
         1: registered and valid url 
         2: registered but invalid url
         """
+        
         pidef = {"header":None, "data":None, "valid": 0}
         header = {}
         data = []
@@ -94,21 +96,38 @@ def getChildrenByName(element, name):
     return children
 
 def https_to_http(url):
-    """"""
+    """Convert an SSL URL to non-SSL URL."""
     parts = url.split('://')
     if len(parts) == 2:
         if parts[0].lower() == 'https': parts[0] = 'http'
         url = ('://').join(parts) 
     else:
         url = url
-    return url
+    return url  
+
+def validate():
+    """"Commandline interface."""
+    validity = {
+        0 : "not registered",
+        1 : "registered and valid url", 
+        2 : "registered but invalid url"
+    }
+
+    parser = argparse.ArgumentParser(description='Check if the URN is registered with the DNB.')
+    parser.add_argument("-u", "--url", default='', help='The objects actual URL.')
+    parser.add_argument("urn", help="URN (Uniform Resource Name) you want to validate.")
+    
+    args = parser.parse_args()
+    urn = args.urn
+    url = args.url
+    
+    x = URN(urn, url)
+    answer = x.parse_dnb_response()
+    valid = answer['valid']
+    print urn, validity[valid]
+  
 
 def main():
-
-    parser = argparse.ArgumentParser(description='check if the URN is registered with the DNB')
-    parser.add_argument("-l", "--url", action='store_true', help='the objects actual URL')
-    parser.add_argument("-n", "--urn", action='store_true', help='the objects URN')
-    args = parser.parse_args()
 
     URNs = (
         ("urn:nbn:de:0009-6-fake", "https:/www.jvrb.org/past-issues/2.2005/248"),

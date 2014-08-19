@@ -31,7 +31,7 @@ setup(name='dipp.tools',
       ],
       entry_points={
       'console_scripts':[
-        'urnvalidator=dipp.tools.urnvalidator:main'
+        'urnvalidator=dipp.tools.urnvalidator:validate'
       ]
       },
       )
