@@ -6,4 +6,4 @@ except ImportError:
     __path__ = extend_path(__path__, __name__)
 
 # version information
-__version__ = "0.4"
+__version__ = "0.5"

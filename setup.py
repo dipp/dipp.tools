@@ -26,7 +26,7 @@ setup(
     ],
     # Get more strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
-                 "Programming Language :: Python :: 2.4",
+        "Programming Language :: Python :: 2.4",
     ],
     keywords='',
     url='http://www.dipp.nrw.de',
