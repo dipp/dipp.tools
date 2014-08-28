@@ -24,6 +24,7 @@ class URN:
 
 
     def make_query_url(self):
+        """Construct the query URL for full XML response."""
         path = 'resolver'
         params = {"identifier":self.urn,"verb":"full","xml":"on"} 
         query = urllib.urlencode(params)
@@ -64,7 +65,6 @@ class URN:
         # get data element
         data_elem = xmldoc.getElementsByTagName("pidef:data")[0]
         url_infos_elems = data_elem.getElementsByTagName("pidef:url_info")
-        urls = []
         if len(url_infos_elems) > 0:
             for url_infos_elem in url_infos_elems:
                 url_info = {}
