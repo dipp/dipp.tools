@@ -7,7 +7,8 @@
 #
 
 from setuptools import setup, find_packages
-from dipp.tools import __version__
+
+__version__ = "0.5.1"
 
 def _read(doc):
     return open(doc, 'rb').read()

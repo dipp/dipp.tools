@@ -1,6 +1,11 @@
 Changelog (dipp.tools)
 ######################
 
+0.5.1 (2014-09-02)
+******************
+
+- fixed bug in version handling, which prevents previous version from installing
+
 0.5 (2014-08-28)
 ****************
 
