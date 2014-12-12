@@ -23,6 +23,7 @@ setup(
     install_requires=[
         'setuptools',
         'argparse',
+        'lxml==2.3.5'
         # -*- Extra requirements: -*-
     ],
     # Get more strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
