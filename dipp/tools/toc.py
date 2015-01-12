@@ -3,7 +3,7 @@ from BeautifulSoup import BeautifulSoup
 from lxml import etree
 
 
-class Toc:
+class TOC:
 
     def __init__(self, html, levels=2):
         
@@ -14,7 +14,10 @@ class Toc:
     def get_toc(self):
         soup = BeautifulSoup(self.html)
         toc = []
-        for h in soup.findAll(self.headings):
+        top_headings = 0
+        # the actual article text is wrapped in a <div class="section">We only need the first one
+        main_section = soup.find("div", {"class":"section"})
+        for h in main_section.findAll(self.headings):
             level = int(h.name[1:])
             anchor = h.find("a")
             if anchor:
@@ -25,17 +28,23 @@ class Toc:
 
         return toc
     
+    
     def get_toc_html(self):
         
-        toc = x.get_toc()
+        toc = self.get_toc()
         root = etree.Element("ol")
+        parent_level = 1
+        
         for level, id, text in toc:
+            delta = level - parent_level
+            #print level, delta, text
             item = etree.SubElement(root, "li" )
             if id:
                 link = etree.SubElement(item, "a", href=id )
                 link.text = text
             else:
                 item.text = text
+            parent_level = level
         return etree.tostring(root, pretty_print=True)
 
 
@@ -44,5 +53,6 @@ if __name__ == '__main__':
     html = f.read()
     f.close()
     
-    x = Toc(html,levels = 4)
-    print x.get_toc_html()
+    toc = TOC(html,levels = 4)
+    print toc.get_toc_html()
+
