@@ -14,18 +14,21 @@ class TOC:
     def get_toc(self):
         soup = BeautifulSoup(self.html)
         toc = []
-        top_headings = 0
-        # the actual article text is wrapped in a <div class="section">We only need the first one
-        main_section = soup.find("div", {"class":"section"})
-        for h in main_section.findAll(self.headings):
-            level = int(h.name[1:])
-            anchor = h.find("a")
+
+        # rip out first titlepage, since it contains headings 
+        # and article metadate not belonging to the toc
+        titlepage = soup.find("div", {"class":"titlepage"})
+        titlepage.extract()
+        
+        for heading in soup.findAll(self.headings):
+            level = int(heading.name[1:])
+            anchor = heading.find("a")
             if anchor:
                 id = anchor.get('id',None)
             else:
                 id = None
-            toc.append((level, id, h.text))
-
+            toc.append((level, id, heading.text))
+        
         return toc
     
     
@@ -37,10 +40,11 @@ class TOC:
         
         for level, id, text in toc:
             delta = level - parent_level
-            #print level, delta, text
-            item = etree.SubElement(root, "li" )
+            attrib = {"class":"toclevel%s" % (level - 1) }
+            item = etree.SubElement(root, "li", attrib=attrib )
             if id:
-                link = etree.SubElement(item, "a", href=id )
+                anchor = "#" + id
+                link = etree.SubElement(item, "a", href=anchor )
                 link.text = text
             else:
                 item.text = text
