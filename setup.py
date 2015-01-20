@@ -8,7 +8,7 @@
 
 from setuptools import setup, find_packages
 
-__version__ = "0.5.1"
+__version__ = "0.6"
 
 def _read(doc):
     return open(doc, 'rb').read()
@@ -23,7 +23,8 @@ setup(
     install_requires=[
         'setuptools',
         'argparse',
-        'lxml==2.3.5'
+        'lxml==2.3.5',
+        'BeautifulSoup==3.2.1'
         # -*- Extra requirements: -*-
     ],
     # Get more strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
