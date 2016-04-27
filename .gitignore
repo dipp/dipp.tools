@@ -4,4 +4,4 @@ dist
 # eclipse
 .project
 .pydevproject
-
+.settings
