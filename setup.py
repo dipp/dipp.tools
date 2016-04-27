@@ -8,7 +8,7 @@
 
 from setuptools import setup, find_packages
 
-__version__ = "0.7dev"
+__version__ = "0.6"
 
 def _read(doc):
     return open(doc, 'rb').read()
@@ -24,8 +24,6 @@ setup(
         'setuptools',
         'argparse',
         'lxml==2.3.5',
-        'qrcode==4.0',
-        'six==1.2',
         'BeautifulSoup==3.2.1'
         # -*- Extra requirements: -*-
     ],
