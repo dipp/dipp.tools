@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from urllib import urlencode
 
 class OpenURL:
@@ -53,3 +54,12 @@ class OpenURL:
     def getcoins(self):
         coins = '<span class="Z3988" title="%s">COinS</span>' % self.geturl()
         return coins
+    
+if __name__ == '__main__':
+    
+    ou = OpenURL()
+    # ou.atitle = "ohne umlaute"
+    ou.atitle = "mit Ümläüte"
+    ou.stitle = "joe"
+    print ou.getcoins()
+    
