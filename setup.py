@@ -24,7 +24,8 @@ setup(
         'setuptools',
         'argparse',
         'lxml==2.3.5',
-        'BeautifulSoup==3.2.1'
+        'BeautifulSoup==3.2.1',
+        'simplejson==2.1.0'
         # -*- Extra requirements: -*-
     ],
     # Get more strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
