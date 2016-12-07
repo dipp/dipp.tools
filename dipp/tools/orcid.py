@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from subprocess import Popen, PIPE
+from subprocess import PIPE, Popen
 try:
     import json
 except ImportError:
@@ -12,15 +12,26 @@ class Orcid:
         
         self.cmd = cmd
 
-    def read(self, orcidid):
-        process = Popen([self.cmd, '-o', orcidid, 'bio'], stdout=PIPE, stderr=PIPE)
-        stdout, stderr = process.communicate()
+    def read(self, resource, orcid_id):
+    
+        orcid_call = ' '.join([self.cmd, '-o', orcid_id, resource])
+        p = Popen(orcid_call, shell=True, stdin=PIPE, stdout=PIPE, stderr=PIPE,
+                      close_fds=False)
         
-        return json.loads(stdout)
+        (fi, fo, fe) = (p.stdin, p.stdout, p.stderr)
+        
+        result = fo.read()
+        fo.close()
+        return json.loads(result)
+
 
 if __name__ == '__main__':
 
     ORCID = "/files/lib/python-2.7-dev/bin/orcid"
-
+    orcid_id = "0000-0002-3187-2536"
+    
     o = Orcid(ORCID)
-    print o.read("0000-0002-3187-2536")
+    print o.read("works", orcid_id)
+    # orcid_call = ' '.join([ORCID, '-o', orcidid, 'works'])
+    # print orcid_call
+    
