@@ -17,7 +17,7 @@ class Orcid:
         
         self.executable = find_executable('orcid', path=path)
         if not self.executable:
-            print "orcid not found"
+            logger.error("orcid command not found")
         
 
     def read(self, resource, orcid_id):
