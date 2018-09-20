@@ -1,6 +1,12 @@
 Changelog (dipp.tools)
 ======================
 
+0.7 (2018-09-20)
+----------------
+
+* fixed broken URN valiation, since the DNB changed the API
+* switched to BeautifulSoup parser for URN XML
+
 0.6 (2016-04-27)
 ----------------
 
@@ -21,7 +27,7 @@ Changelog (dipp.tools)
 ----------------
 
 * new module for indenting/pretty printing xml files
-  
+
 0.3 (2013-04-26)
 ----------------
 
@@ -32,7 +38,7 @@ Changelog (dipp.tools)
 
 * using new URN resolver, evaluating the XML response
 * CLI applicatin for validation URNs
- 
+
 0.1 (2012-05-10)
 ----------------
 

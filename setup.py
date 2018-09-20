@@ -8,10 +8,12 @@
 
 from setuptools import setup, find_packages
 
-__version__ = "0.6"
+__version__ = "0.7"
+
 
 def _read(doc):
     return open(doc, 'rb').read()
+
 
 setup(
     name='dipp.tools',
@@ -40,7 +42,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     entry_points={
-        'console_scripts':[
+        'console_scripts': [
             'urnvalidator=dipp.tools.urnvalidator:validate'
         ]
     },
