@@ -35,7 +35,7 @@ class URN:
            of the resolved URN
         """
         query_url = urlparse.urlunparse(('https', RESOLVER, self.urn, '', '', ''))
-        logger.info("\nResolving %s " % query_url)
+        logger.info("Resolving %s " % query_url)
         req = urllib2.Request(query_url)
         req.add_header('Accept', 'text/xml')
         try:
