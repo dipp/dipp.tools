@@ -8,7 +8,7 @@
 
 from setuptools import setup, find_packages
 
-__version__ = "0.7"
+__version__ = "0.7.1"
 
 
 def _read(doc):
@@ -26,8 +26,9 @@ setup(
         'setuptools',
         'argparse',
         'lxml==2.3.5',
-        'BeautifulSoup==3.2.1',
-        'simplejson==2.1.0'
+        'BeautifulSoup==3.2.1'
+        # 'simplejson==2.1.0' Required, but apperently not installable by easyinstall
+        # comment/note kept for reference
         # -*- Extra requirements: -*-
     ],
     # Get more strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
