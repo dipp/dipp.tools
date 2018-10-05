@@ -1,11 +1,17 @@
 Changelog (dipp.tools)
 ======================
 
+0.7.2 (2018-10-05)
+------------------
+
+* removed BeautyfulSoup dependency from setup.py. BeautifulSoup version 3.2.1
+  is still required, but not automatic installableby easy_install
+
 0.7.1 (2018-09-21)
 ------------------
 
 * removed simplejson dependency from setup.py. simplejson Version 2.10
-  is still required, but not automtic installableby easy_install
+  is still required, but not automatic installableby easy_install
 
 0.7 (2018-09-20)
 ----------------

@@ -8,7 +8,7 @@
 
 from setuptools import setup, find_packages
 
-__version__ = "0.7.1"
+__version__ = "0.7.2"
 
 
 def _read(doc):
@@ -26,6 +26,8 @@ setup(
         'setuptools',
         'argparse',
         'lxml==2.3.5',
+        # BeautifulSoup is still required, but apperently not automatically
+        # installable
         # 'BeautifulSoup==3.2.1'
         # 'simplejson==2.1.0' Required, but apperently not installable by easyinstall
         # comment/note kept for reference
