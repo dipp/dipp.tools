@@ -26,7 +26,7 @@ setup(
         'setuptools',
         'argparse',
         'lxml==2.3.5',
-        'BeautifulSoup==3.2.1'
+        # 'BeautifulSoup==3.2.1'
         # 'simplejson==2.1.0' Required, but apperently not installable by easyinstall
         # comment/note kept for reference
         # -*- Extra requirements: -*-
